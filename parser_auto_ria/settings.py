@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 import os
 from pathlib import Path
 
+from celery.schedules import crontab
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -133,3 +135,12 @@ CELERY_RESULT_BACKEND = os.getenv("CELERY_RESULT_BACKEND")
 CELERY_TIMEZONE = "Europe/Kyiv"
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
+
+NAME_CREATE_ORDERS_TASK = "pars-auto-ria-every-day"
+
+CELERY_BEAT_SCHEDULE = {
+    NAME_CREATE_ORDERS_TASK: {
+        "task": "auto_card.tasks.pars_auto_ria",
+        'schedule': crontab(hour=0, minute=0),
+    },
+}
