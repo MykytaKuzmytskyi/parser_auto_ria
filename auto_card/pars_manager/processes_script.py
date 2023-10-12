@@ -45,7 +45,7 @@ async def process_page(session, url, driver):
 async def cards_list():
     num_page = 1
     driver = open_browser()
-    while num_page != 101:
+    while num_page:
         url_num_page = urljoin(BASE_URL, f"?page={num_page}")
         print(f"Parsing page #{num_page} - {url_num_page}")
         async with aiohttp.ClientSession() as session:
